@@ -1,0 +1,33 @@
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>简易计算器</h1>
+    <p>请输入一些计算式，并按下计算</p>
+    <input id="input-box" type="text" placeholder="输入内容">
+    <button id="send-button">计算</button>
+    <p><输出框显示后端API计算></输出框显示后端API计算>的结果。</p>
+    <div id="output-box" style="border: 1px solid black; width: 300px; height: 100px;"></div>
+    <script>
+        $(document).ready(function() {
+            $("#send-button").click(function() {
+                var input = $("#input-box").val();
+                $.ajax({
+                    url: "/calculate",
+                    type: "GET",
+                    data:{"input":input},
+                    success: function(data) {
+                        let status =data["status"]
+                        if (status == "good") {
+                            $("#output-box").html("你输入的内容是：" + input + "<br>结果是：" + data.res);
+                        }else{
+                            $("#output-box").html("你输入的内容是：" + input + "<br>语法有错误，或者出现了中文字符等等");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
